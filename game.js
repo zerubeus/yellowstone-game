@@ -18,14 +18,12 @@ imgTerrain.src = 'tiles_terrain.png';
 imgObjects.src = 'tiles_objects.png';
 const SPRITE = 32; // source tile size px
 
-// Character direction sprites
-const charSprites = {};
-const CHAR_DIRS = ['south', 'south_east', 'east', 'north_east', 'north', 'north_west', 'west', 'south_west'];
-for (const d of CHAR_DIRS) {
-  const img = new Image();
-  img.src = `sprites/char/${d}.png`;
-  charSprites[d] = img;
-}
+// Character walk cycle sprite sheet (4 rows x 8 cols, 256x256 per cell)
+// Rows: 0=down, 1=up, 2=left, 3=right. 8 frames per row.
+const charWalkSheet = new Image();
+charWalkSheet.src = 'sprites/char_walk.png';
+const WALK_CELL = 256;
+const WALK_FRAMES = 8;
 
 // Tree sprite sheet (3 trees arranged horizontally, 512x256)
 const treeSheet = new Image();
@@ -155,6 +153,9 @@ const state = {
     xp: 0, level: 1,
     coins: 25,
     facing: 0,
+    walkFrame: 0,
+    walkTimer: 0,
+    isMoving: false,
     attackCd: 0,
     hurtCd: 0,
     flashCd: 0,
@@ -665,6 +666,18 @@ function update() {
   const ny = p.y + dy * speed;
   if (!solidAt(nx, p.y, p.r)) p.x = clamp(nx, 20, WORLD_W - 20);
   if (!solidAt(p.x, ny, p.r)) p.y = clamp(ny, 20, WORLD_H - 20);
+
+  p.isMoving = len > 0;
+  if (p.isMoving) {
+    p.walkTimer += state.dt;
+    if (p.walkTimer > 0.1) {
+      p.walkFrame = (p.walkFrame + 1) % WALK_FRAMES;
+      p.walkTimer = 0;
+    }
+  } else {
+    p.walkFrame = 0;
+    p.walkTimer = 0;
+  }
 
   const mw = screenToWorld(state.mouse.x, state.mouse.y);
   p.facing = Math.atan2(mw.y - p.y, mw.x - p.x);
@@ -1975,20 +1988,16 @@ function drawEnemy(e) {
   }
 }
 
-function facingToDir(angle) {
+function facingToRow(angle) {
   // Normalize angle to [-PI, PI]
   let a = angle;
   while (a > Math.PI) a -= Math.PI * 2;
   while (a < -Math.PI) a += Math.PI * 2;
   const P = Math.PI;
-  if (a >= -P/8    && a < P/8)       return 'east';
-  if (a >= P/8     && a < 3*P/8)     return 'south_east';
-  if (a >= 3*P/8   && a < 5*P/8)     return 'south';
-  if (a >= 5*P/8   && a < 7*P/8)     return 'south_west';
-  if (a >= -3*P/8  && a < -P/8)      return 'north_east';
-  if (a >= -5*P/8  && a < -3*P/8)    return 'north';
-  if (a >= -7*P/8  && a < -5*P/8)    return 'north_west';
-  return 'west';
+  if (a >= -P/4 && a < P/4)   return 0; // down
+  if (a >= P/4  && a < 3*P/4) return 3; // right
+  if (a >= -3*P/4 && a < -P/4) return 2; // left
+  return 1; // up (|a| >= 3PI/4)
 }
 
 function drawPlayer() {
@@ -2001,14 +2010,15 @@ function drawPlayer() {
   ctx.fillStyle = 'rgba(0,0,0,0.55)';
   ctx.beginPath(); ctx.ellipse(s.x, s.y + 8, 28, 10, 0, 0, Math.PI * 2); ctx.fill();
 
-  const dir = facingToDir(p.facing);
-  const img = charSprites[dir];
+  const dirRow = facingToRow(p.facing);
   const SW = 88, SH = 88; // draw size
   const drawX = s.x - SW / 2;
   const drawY = s.y - SH;   // feet at s.y
+  const srcX = p.walkFrame * WALK_CELL;
+  const srcY = dirRow * WALK_CELL;
 
-  if (img && img.complete && img.naturalWidth > 0) {
-    ctx.drawImage(img, drawX, drawY, SW, SH);
+  if (charWalkSheet.complete && charWalkSheet.naturalWidth > 0) {
+    ctx.drawImage(charWalkSheet, srcX, srcY, WALK_CELL, WALK_CELL, drawX, drawY, SW, SH);
 
     // Gear overlays on torso area
     if (!flash) {
