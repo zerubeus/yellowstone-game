@@ -33,6 +33,10 @@ treeSheet.src = 'sprites/trees.png';
 const TREE_SW = 170;
 const TREE_SH = 256;
 
+// Rock sprite sheet (4x2 grid, 8 variations)
+const rockSheet = new Image();
+rockSheet.src = 'sprites/rocks.png';
+
 const $ = id => document.getElementById(id);
 const startScreen = $('startScreen');
 const hudEl = $('hud');
@@ -406,6 +410,7 @@ function makeNode(type, x, y) {
   const d = defs[type];
   const node = { type, x, y, r: d.r, hp: d.hp, hpMax: d.hp, def: d, respawn: 0 };
   if (type === 'tree') node.spriteIdx = rint(0, 2);
+  if (type === 'rock') node.spriteIdx = rint(0, 7);
   return node;
 }
 
@@ -1640,15 +1645,17 @@ function drawNode(n) {
       ctx.beginPath(); ctx.arc(s.x, s.y - 10, 20, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
     }
   } else if (n.type === 'rock') {
-    // Angular dark gray rock with thick outline
-    if (objLoaded) {
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
-      ctx.beginPath(); ctx.ellipse(s.x, s.y + 6, 16, 5, 0, 0, Math.PI * 2); ctx.fill();
-      const col = ((n.x * 3 + n.y * 7) | 0) % 3;
-      blitObj(col, 2, s.x, s.y, sp.size);
-      ctx.globalAlpha = 0.3; ctx.fillStyle = '#000';
-      ctx.fillRect(s.x - sp.size/2, s.y - sp.size/2, sp.size, sp.size);
-      ctx.globalAlpha = 1;
+    // Shadow at base
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.beginPath(); ctx.ellipse(s.x, s.y + 6, 16, 5, 0, 0, Math.PI * 2); ctx.fill();
+    if (rockSheet.complete && rockSheet.naturalWidth > 0) {
+      const cols = 4, rows = 2;
+      const cellW = rockSheet.naturalWidth / cols;
+      const cellH = rockSheet.naturalHeight / rows;
+      const srcX = (n.spriteIdx % cols) * cellW;
+      const srcY = Math.floor(n.spriteIdx / cols) * cellH;
+      const dw = 35, dh = 35;
+      ctx.drawImage(rockSheet, srcX, srcY, cellW, cellH, s.x - dw / 2, s.y - dh / 2, dw, dh);
     } else {
       ctx.fillStyle = '#2a2826';
       ctx.beginPath();
