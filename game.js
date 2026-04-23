@@ -1973,14 +1973,14 @@ function facingToDir(angle) {
   while (a > Math.PI) a -= Math.PI * 2;
   while (a < -Math.PI) a += Math.PI * 2;
   const P = Math.PI;
-  if (a >= -P/8 && a < P/8)          return 'south';
-  if (a >= P/8  && a < 3*P/8)        return 'south_east';
-  if (a >= 3*P/8 && a < 5*P/8)       return 'east';
-  if (a >= 5*P/8 && a < 7*P/8)       return 'north_east';
-  if (a >= -3*P/8 && a < -P/8)       return 'south_west';
-  if (a >= -5*P/8 && a < -3*P/8)     return 'west';
-  if (a >= -7*P/8 && a < -5*P/8)     return 'north_west';
-  return 'north';
+  if (a >= -P/8    && a < P/8)       return 'east';
+  if (a >= P/8     && a < 3*P/8)     return 'south_east';
+  if (a >= 3*P/8   && a < 5*P/8)     return 'south';
+  if (a >= 5*P/8   && a < 7*P/8)     return 'south_west';
+  if (a >= -3*P/8  && a < -P/8)      return 'north_east';
+  if (a >= -5*P/8  && a < -3*P/8)    return 'north';
+  if (a >= -7*P/8  && a < -5*P/8)    return 'north_west';
+  return 'west';
 }
 
 function drawPlayer() {
