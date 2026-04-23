@@ -1970,243 +1970,313 @@ function drawPlayer() {
   const gearId = p.gear;
 
   const OL = '#000';
-  // Last Spell survivor palette
-  const skinHi  = flash ? '#cc1020' : '#F3C7A8';
-  const skin     = flash ? '#cc1020' : '#D4A080';
-  const skinDk   = flash ? '#aa0010' : '#B88068';
-  const hair     = flash ? '#cc1020' : '#2A2035';
-  const hairDk   = flash ? '#aa0010' : '#1A1423';
-  const tunic    = flash ? '#cc1020' : '#4A8F3F';
-  const tunicHi  = flash ? '#cc1020' : '#7FB15D';
-  const tunicDk  = flash ? '#aa0010' : '#2D5E2D';
-  const pants    = flash ? '#cc1020' : '#D9C5A0';
-  const pantsDk  = flash ? '#aa0010' : '#A38F70';
-  const leather  = flash ? '#cc1020' : '#6B4433';
-  const leatherDk= flash ? '#aa0010' : '#422A1E';
-  const buckle   = '#8A7040';
+  // Saracen warrior palette
+  const skin     = flash ? '#cc1020' : '#D2A679';
+  const skinDk   = flash ? '#aa0010' : '#967259';
+  const turban   = flash ? '#cc1020' : '#E8D3B5';
+  const turbanDk = flash ? '#aa0010' : '#A88E6D';
+  const redTail  = flash ? '#cc1020' : '#9E2A2B';
+  const redHi    = flash ? '#cc1020' : '#D14B4B';
+  const redDp    = flash ? '#aa0010' : '#5F1A1A';
+  const beard    = flash ? '#cc1020' : '#2A1A10';
+  const beardDk  = flash ? '#aa0010' : '#1A0E08';
+  const cream    = flash ? '#cc1020' : '#E8D3B5';
+  const creamDk  = flash ? '#aa0010' : '#B8A080';
+  const sash     = flash ? '#cc1020' : '#9E2A2B';
+  const sashHi   = flash ? '#cc1020' : '#D14B4B';
+  const pants    = flash ? '#cc1020' : '#E0D0B8';
+  const pantsDk  = flash ? '#aa0010' : '#A89068';
+  const leather  = flash ? '#cc1020' : '#4E342E';
+  const leatherDk= flash ? '#aa0010' : '#2D1B18';
+  const gold     = flash ? '#cc1020' : '#C5A059';
+  const goldHi   = flash ? '#cc1020' : '#F3E5AB';
+  const goldDk   = flash ? '#aa0010' : '#7D5C1E';
+  const blade    = flash ? '#cc1020' : '#B0BEC5';
 
   ctx.strokeStyle = OL;
 
-  // === BOOTS (rugged mid-calf brown leather) ===
+  // === BOOTS (dark brown mid-calf leather with gold rim) ===
   ctx.fillStyle = leather;
   ctx.fillRect(s.x - 10, s.y + 11, 8, 10);
   ctx.fillRect(s.x + 2, s.y + 11, 8, 10);
   ctx.lineWidth = 2;
   ctx.strokeRect(s.x - 10, s.y + 11, 8, 10);
   ctx.strokeRect(s.x + 2, s.y + 11, 8, 10);
-  // Boot cuff at top
-  ctx.fillStyle = leatherDk;
-  ctx.fillRect(s.x - 10, s.y + 11, 8, 3);
-  ctx.fillRect(s.x + 2, s.y + 11, 8, 3);
-  // Boot soles (slightly wider)
+  // Boot soles
   ctx.fillStyle = leatherDk;
   ctx.fillRect(s.x - 11, s.y + 18, 10, 3);
   ctx.fillRect(s.x + 1, s.y + 18, 10, 3);
   ctx.lineWidth = 1;
   ctx.strokeRect(s.x - 11, s.y + 18, 10, 3);
   ctx.strokeRect(s.x + 1, s.y + 18, 10, 3);
+  // Gold rim at boot top
+  ctx.fillStyle = gold;
+  ctx.fillRect(s.x - 10, s.y + 11, 8, 2);
+  ctx.fillRect(s.x + 2, s.y + 11, 8, 2);
 
-  // === PANTS (baggy light tan, tucked into boots) ===
+  // === BAGGY PANTS (sirwal — very loose off-white/bone) ===
   ctx.fillStyle = pants;
-  ctx.fillRect(s.x - 10, s.y + 3, 8, 10);
-  ctx.fillRect(s.x + 2, s.y + 3, 8, 10);
+  ctx.fillRect(s.x - 11, s.y + 2, 9, 11);
+  ctx.fillRect(s.x + 2, s.y + 2, 9, 11);
   ctx.lineWidth = 2;
-  ctx.strokeRect(s.x - 10, s.y + 3, 8, 10);
-  ctx.strokeRect(s.x + 2, s.y + 3, 8, 10);
-  // Crease lines
+  ctx.strokeRect(s.x - 11, s.y + 2, 9, 11);
+  ctx.strokeRect(s.x + 2, s.y + 2, 9, 11);
+  // Wavy fold lines
   ctx.fillStyle = pantsDk;
-  ctx.fillRect(s.x - 7, s.y + 5, 2, 6);
-  ctx.fillRect(s.x + 5, s.y + 5, 2, 6);
+  ctx.fillRect(s.x - 8, s.y + 4, 2, 7);
+  ctx.fillRect(s.x - 5, s.y + 6, 1, 5);
+  ctx.fillRect(s.x + 5, s.y + 4, 2, 7);
+  ctx.fillRect(s.x + 8, s.y + 6, 1, 5);
+  // Narrow toward ankle
+  ctx.fillStyle = pants;
+  ctx.fillRect(s.x - 9, s.y + 10, 6, 3);
+  ctx.fillRect(s.x + 3, s.y + 10, 6, 3);
 
-  // === BELT (thick dark brown leather) ===
+  // === WIDE BELT (thick dark brown with large gold buckle) ===
   ctx.fillStyle = leather;
-  ctx.fillRect(s.x - 11, s.y + 1, 22, 4);
+  ctx.fillRect(s.x - 12, s.y + 0, 24, 5);
   ctx.lineWidth = 2;
-  ctx.strokeRect(s.x - 11, s.y + 1, 22, 4);
-  // Belt buckle (gold center)
-  ctx.fillStyle = buckle;
-  ctx.fillRect(s.x - 3, s.y + 1, 6, 4);
-  ctx.lineWidth = 1;
-  ctx.strokeRect(s.x - 3, s.y + 1, 6, 4);
-  // Diagonal baldric strap (right hip to left thigh)
-  ctx.strokeStyle = leather;
+  ctx.strokeRect(s.x - 12, s.y + 0, 24, 5);
+  // Diagonal leather cross-strap
+  ctx.strokeStyle = leatherDk;
   ctx.lineWidth = 3;
-  ctx.beginPath(); ctx.moveTo(s.x + 9, s.y + 2); ctx.lineTo(s.x - 7, s.y + 14); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(s.x + 10, s.y + 1); ctx.lineTo(s.x - 8, s.y + 14); ctx.stroke();
+  ctx.strokeStyle = OL;
+  // Gold buckle circle
+  ctx.fillStyle = gold;
+  ctx.beginPath(); ctx.arc(s.x, s.y + 2, 4, 0, Math.PI * 2); ctx.fill();
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = goldDk;
+  ctx.beginPath(); ctx.arc(s.x, s.y + 2, 4, 0, Math.PI * 2); ctx.stroke();
+  ctx.fillStyle = goldHi;
+  ctx.fillRect(s.x - 1, s.y, 2, 2);
   ctx.strokeStyle = OL;
 
-  // === TABARD (green cloth, pointed, hangs belt to mid-thigh) ===
-  let torsoCol = tunic;
-  if (gearId === 'ironArmor' && !flash) torsoCol = '#383840';
-  else if (gearId === 'shadowCloak' && !flash) torsoCol = '#10101c';
+  // === CRIMSON SASH (drapes over belt, hanging panels on each side) ===
+  ctx.fillStyle = sash;
+  // Left panel
+  ctx.fillRect(s.x - 13, s.y + 0, 6, 10);
+  ctx.lineWidth = 1;
+  ctx.strokeRect(s.x - 13, s.y + 0, 6, 10);
+  // Right panel
+  ctx.fillRect(s.x + 7, s.y + 0, 6, 10);
+  ctx.strokeRect(s.x + 7, s.y + 0, 6, 10);
+  // Deep fold shadows
+  ctx.fillStyle = redDp;
+  ctx.fillRect(s.x - 11, s.y + 2, 2, 7);
+  ctx.fillRect(s.x + 9, s.y + 2, 2, 7);
+  // Highlight edges
+  ctx.fillStyle = sashHi;
+  ctx.fillRect(s.x - 13, s.y + 0, 2, 8);
+  ctx.fillRect(s.x + 7, s.y + 0, 2, 8);
 
-  if (torsoCol === tunic) {
-    ctx.fillStyle = tunicDk;
-    ctx.beginPath();
-    ctx.moveTo(s.x - 7, s.y + 1);
-    ctx.lineTo(s.x, s.y + 12);
-    ctx.lineTo(s.x + 7, s.y + 1);
-    ctx.fill();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = OL;
-    ctx.beginPath();
-    ctx.moveTo(s.x - 7, s.y + 1);
-    ctx.lineTo(s.x, s.y + 12);
-    ctx.lineTo(s.x + 7, s.y + 1);
-    ctx.closePath(); ctx.stroke();
-  }
+  // === TUNIC/VEST (cream sleeveless over dark undershirt) ===
+  let vestCol = cream;
+  let vestDk  = creamDk;
+  if (gearId === 'ironArmor' && !flash) { vestCol = '#383840'; vestDk = '#20202a'; }
+  else if (gearId === 'shadowCloak' && !flash) { vestCol = '#10101c'; vestDk = '#08080e'; }
 
-  // === TORSO (forest green long-sleeved tunic, deep V-neck) ===
-  ctx.fillStyle = torsoCol;
-  ctx.fillRect(s.x - 11, s.y - 13, 22, 16);
-  ctx.lineWidth = 3;
-  ctx.strokeRect(s.x - 11, s.y - 13, 22, 16);
-  // V-neck skin showing
-  if (torsoCol === tunic) {
-    ctx.fillStyle = skin;
-    ctx.beginPath();
-    ctx.moveTo(s.x - 5, s.y - 13);
-    ctx.lineTo(s.x, s.y - 5);
-    ctx.lineTo(s.x + 5, s.y - 13);
-    ctx.fill();
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = OL;
-    ctx.beginPath();
-    ctx.moveTo(s.x - 5, s.y - 13);
-    ctx.lineTo(s.x, s.y - 5);
-    ctx.lineTo(s.x + 5, s.y - 13);
-    ctx.stroke();
-    // Tunic highlight edge
-    ctx.fillStyle = tunicHi;
-    ctx.fillRect(s.x - 11, s.y - 13, 3, 16);
+  // Dark undershirt visible at chest gap
+  if (vestCol === cream) {
+    ctx.fillStyle = '#2a1e14';
+    ctx.fillRect(s.x - 4, s.y - 13, 8, 14);
   }
+  // Left vest panel
+  ctx.fillStyle = vestCol;
+  ctx.fillRect(s.x - 12, s.y - 14, 10, 15);
+  ctx.lineWidth = 2;
+  ctx.strokeRect(s.x - 12, s.y - 14, 10, 15);
+  // Right vest panel
+  ctx.fillRect(s.x + 2, s.y - 14, 10, 15);
+  ctx.strokeRect(s.x + 2, s.y - 14, 10, 15);
+  // Vest shadow/fold
+  ctx.fillStyle = vestDk;
+  ctx.fillRect(s.x - 12, s.y - 14, 3, 15);
+  ctx.fillRect(s.x + 9, s.y - 14, 3, 15);
   // Armor plate detail
   if (gearId === 'ironArmor' && !flash) {
     ctx.strokeStyle = '#5a5a70';
     ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(s.x - 11, s.y - 5); ctx.lineTo(s.x + 11, s.y - 5); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(s.x, s.y - 13); ctx.lineTo(s.x, s.y + 3); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(s.x - 12, s.y - 5); ctx.lineTo(s.x + 12, s.y - 5); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(s.x, s.y - 14); ctx.lineTo(s.x, s.y + 1); ctx.stroke();
     ctx.strokeStyle = OL;
   }
 
-  // === LEFT ARM (tunic sleeve upper, skin forearm, leather bracer) ===
-  ctx.fillStyle = torsoCol;
-  ctx.fillRect(s.x - 18, s.y - 12, 7, 10);
+  // === LEFT ARM (skin upper, thick leather bracer with gold plate) ===
+  ctx.fillStyle = skin;
+  ctx.fillRect(s.x - 19, s.y - 13, 7, 11);
   ctx.lineWidth = 2;
-  ctx.strokeRect(s.x - 18, s.y - 12, 7, 10);
+  ctx.strokeRect(s.x - 19, s.y - 13, 7, 11);
   // Forearm skin
   ctx.fillStyle = skin;
-  ctx.fillRect(s.x - 18, s.y - 2, 7, 8);
+  ctx.fillRect(s.x - 19, s.y - 2, 7, 8);
   ctx.lineWidth = 2;
-  ctx.strokeRect(s.x - 18, s.y - 2, 7, 8);
+  ctx.strokeRect(s.x - 19, s.y - 2, 7, 8);
   // Leather bracer
   ctx.fillStyle = leather;
-  ctx.fillRect(s.x - 18, s.y - 2, 7, 4);
+  ctx.fillRect(s.x - 19, s.y - 2, 7, 5);
   ctx.lineWidth = 1;
-  ctx.strokeRect(s.x - 18, s.y - 2, 7, 4);
+  ctx.strokeRect(s.x - 19, s.y - 2, 7, 5);
+  // Gold bracer line
+  ctx.fillStyle = gold;
+  ctx.fillRect(s.x - 19, s.y - 2, 7, 1);
+  ctx.fillRect(s.x - 19, s.y + 2, 7, 1);
 
-  // === RIGHT ARM (tunic sleeve upper, skin forearm, leather bracer) ===
-  ctx.fillStyle = torsoCol;
-  ctx.fillRect(s.x + 11, s.y - 12, 7, 10);
-  ctx.lineWidth = 2;
-  ctx.strokeRect(s.x + 11, s.y - 12, 7, 10);
+  // === RIGHT ARM (skin upper, thick leather bracer with gold plate) ===
   ctx.fillStyle = skin;
-  ctx.fillRect(s.x + 11, s.y - 2, 7, 8);
+  ctx.fillRect(s.x + 12, s.y - 13, 7, 11);
   ctx.lineWidth = 2;
-  ctx.strokeRect(s.x + 11, s.y - 2, 7, 8);
+  ctx.strokeRect(s.x + 12, s.y - 13, 7, 11);
+  ctx.fillStyle = skin;
+  ctx.fillRect(s.x + 12, s.y - 2, 7, 8);
+  ctx.lineWidth = 2;
+  ctx.strokeRect(s.x + 12, s.y - 2, 7, 8);
   ctx.fillStyle = leather;
-  ctx.fillRect(s.x + 11, s.y - 2, 7, 4);
+  ctx.fillRect(s.x + 12, s.y - 2, 7, 5);
   ctx.lineWidth = 1;
-  ctx.strokeRect(s.x + 11, s.y - 2, 7, 4);
+  ctx.strokeRect(s.x + 12, s.y - 2, 7, 5);
+  ctx.fillStyle = gold;
+  ctx.fillRect(s.x + 12, s.y - 2, 7, 1);
+  ctx.fillRect(s.x + 12, s.y + 2, 7, 1);
 
-  // === HEAD (face, slightly larger than realistic) ===
+  // === HEAD (tanned skin face) ===
   ctx.fillStyle = skin;
-  ctx.fillRect(s.x - 9, s.y - 28, 18, 16);
+  ctx.fillRect(s.x - 9, s.y - 29, 18, 16);
   ctx.lineWidth = 3;
-  ctx.strokeRect(s.x - 9, s.y - 28, 18, 16);
-  // Skin highlight on forehead/cheek
-  ctx.fillStyle = skinHi;
-  ctx.fillRect(s.x - 7, s.y - 27, 5, 4);
-
-  // === HAIR (shoulder-length shaggy dark purple-black) ===
-  ctx.fillStyle = hair;
-  ctx.fillRect(s.x - 10, s.y - 37, 20, 11);
-  ctx.lineWidth = 3;
-  ctx.strokeRect(s.x - 10, s.y - 37, 20, 11);
-  // Side panels hanging to shoulders
-  ctx.fillRect(s.x - 12, s.y - 29, 4, 15);
-  ctx.fillRect(s.x + 8, s.y - 29, 4, 15);
-  ctx.lineWidth = 2;
-  ctx.strokeRect(s.x - 12, s.y - 29, 4, 15);
-  ctx.strokeRect(s.x + 8, s.y - 29, 4, 15);
-  // Stray tufts on top
-  ctx.fillStyle = hairDk;
-  ctx.fillRect(s.x - 3, s.y - 39, 2, 3);
-  ctx.fillRect(s.x + 2, s.y - 38, 2, 2);
-  ctx.fillRect(s.x - 7, s.y - 38, 2, 2);
-  // Hair shadow texture
-  ctx.fillStyle = hairDk;
-  ctx.fillRect(s.x - 6, s.y - 36, 3, 6);
-  ctx.fillRect(s.x + 2, s.y - 35, 2, 5);
-
-  // === BEARD (full bushy, same color as hair) ===
-  ctx.fillStyle = hair;
-  ctx.fillRect(s.x - 8, s.y - 21, 16, 10);
-  ctx.lineWidth = 2;
-  ctx.strokeRect(s.x - 8, s.y - 21, 16, 10);
-  // Beard shadow texture
-  ctx.fillStyle = hairDk;
-  ctx.fillRect(s.x - 5, s.y - 19, 2, 6);
-  ctx.fillRect(s.x + 3, s.y - 20, 2, 6);
-  // Sideburns connecting hair to beard
-  ctx.fillStyle = hair;
-  ctx.fillRect(s.x - 9, s.y - 25, 3, 5);
-  ctx.fillRect(s.x + 6, s.y - 25, 3, 5);
-
-  // === EYES (dark, weary — 2px squares) ===
-  ctx.fillStyle = '#1A1014';
-  ctx.fillRect(s.x - 6, s.y - 26, 4, 3);
-  ctx.fillRect(s.x + 2, s.y - 26, 4, 3);
-  ctx.lineWidth = 1;
-  ctx.strokeRect(s.x - 6, s.y - 26, 4, 3);
-  ctx.strokeRect(s.x + 2, s.y - 26, 4, 3);
-  // Tiny glint
-  ctx.fillStyle = '#666';
-  ctx.fillRect(s.x - 5, s.y - 26, 1, 1);
-  ctx.fillRect(s.x + 3, s.y - 26, 1, 1);
-
-  // === NOSE (shadow pixel below eye line) ===
+  ctx.strokeRect(s.x - 9, s.y - 29, 18, 16);
+  // Skin shadow on jaw sides
   ctx.fillStyle = skinDk;
-  ctx.fillRect(s.x - 1, s.y - 23, 2, 2);
+  ctx.fillRect(s.x - 9, s.y - 29, 2, 16);
+  ctx.fillRect(s.x + 7, s.y - 29, 2, 16);
+
+  // === BEARD (full groomed dark beard) ===
+  // Jawline coverage
+  ctx.fillStyle = beard;
+  ctx.fillRect(s.x - 8, s.y - 22, 16, 9);
+  ctx.lineWidth = 2;
+  ctx.strokeRect(s.x - 8, s.y - 22, 16, 9);
+  // Mustache
+  ctx.fillRect(s.x - 6, s.y - 25, 12, 4);
+  ctx.lineWidth = 1;
+  ctx.strokeRect(s.x - 6, s.y - 25, 12, 4);
+  // Beard texture depth
+  ctx.fillStyle = beardDk;
+  ctx.fillRect(s.x - 5, s.y - 20, 3, 6);
+  ctx.fillRect(s.x + 2, s.y - 21, 2, 5);
+  ctx.fillRect(s.x - 1, s.y - 18, 2, 4);
+  // Beard bottom taper
+  ctx.fillStyle = beard;
+  ctx.fillRect(s.x - 5, s.y - 15, 10, 4);
+  ctx.lineWidth = 1;
+  ctx.strokeRect(s.x - 5, s.y - 15, 10, 4);
+
+  // === EYES (dark under brow ridge) ===
+  ctx.fillStyle = '#1A1014';
+  ctx.fillRect(s.x - 6, s.y - 27, 4, 3);
+  ctx.fillRect(s.x + 2, s.y - 27, 4, 3);
+  ctx.lineWidth = 1;
+  ctx.strokeRect(s.x - 6, s.y - 27, 4, 3);
+  ctx.strokeRect(s.x + 2, s.y - 27, 4, 3);
+  // Glint
+  ctx.fillStyle = '#888';
+  ctx.fillRect(s.x - 5, s.y - 27, 1, 1);
+  ctx.fillRect(s.x + 3, s.y - 27, 1, 1);
+
+  // === NOSE shadow ===
+  ctx.fillStyle = skinDk;
+  ctx.fillRect(s.x - 1, s.y - 24, 2, 2);
+
+  // === TURBAN (large multi-wrapped off-white, red tail at back) ===
+  // Red tail hanging behind (draw first so turban overlaps)
+  ctx.fillStyle = redTail;
+  ctx.fillRect(s.x + 5, s.y - 46, 6, 20);
+  ctx.lineWidth = 1;
+  ctx.strokeRect(s.x + 5, s.y - 46, 6, 20);
+  ctx.fillStyle = redDp;
+  ctx.fillRect(s.x + 8, s.y - 44, 2, 16);
+  ctx.fillStyle = redHi;
+  ctx.fillRect(s.x + 5, s.y - 46, 2, 14);
+  // Tail tip slight taper
+  ctx.fillStyle = redTail;
+  ctx.fillRect(s.x + 6, s.y - 28, 4, 4);
+  ctx.strokeRect(s.x + 6, s.y - 28, 4, 4);
+
+  // Main turban dome
+  ctx.fillStyle = turban;
+  ctx.fillRect(s.x - 12, s.y - 48, 22, 20);
+  ctx.lineWidth = 3;
+  ctx.strokeRect(s.x - 12, s.y - 48, 22, 20);
+  // Rounded top with slightly protruding cap
+  ctx.fillStyle = turban;
+  ctx.fillRect(s.x - 10, s.y - 52, 18, 6);
+  ctx.lineWidth = 2;
+  ctx.strokeRect(s.x - 10, s.y - 52, 18, 6);
+  // Wrap fold lines (horizontal shadow stripes)
+  ctx.fillStyle = turbanDk;
+  ctx.fillRect(s.x - 12, s.y - 45, 22, 2);
+  ctx.fillRect(s.x - 12, s.y - 41, 22, 2);
+  ctx.fillRect(s.x - 12, s.y - 37, 22, 2);
+  ctx.fillRect(s.x - 10, s.y - 50, 18, 2);
+  // Turban highlight on upper left
+  ctx.fillStyle = '#F5ECD8';
+  ctx.fillRect(s.x - 11, s.y - 47, 4, 12);
+  ctx.fillRect(s.x - 9, s.y - 51, 5, 4);
+  // Front wrap knot detail
+  ctx.fillStyle = turbanDk;
+  ctx.fillRect(s.x - 4, s.y - 33, 8, 4);
+  ctx.lineWidth = 1;
+  ctx.strokeRect(s.x - 4, s.y - 33, 8, 4);
 
   // === DEMON MASK OVERLAY ===
   if (gearId === 'demonMask' && !flash) {
     ctx.fillStyle = 'rgba(70,0,30,0.8)';
-    ctx.fillRect(s.x - 9, s.y - 28, 18, 16);
+    ctx.fillRect(s.x - 9, s.y - 29, 18, 16);
     ctx.lineWidth = 2;
     ctx.strokeStyle = '#400020';
-    ctx.strokeRect(s.x - 9, s.y - 28, 18, 16);
+    ctx.strokeRect(s.x - 9, s.y - 29, 18, 16);
     ctx.strokeStyle = OL;
     ctx.fillStyle = '#cc1818';
-    ctx.fillRect(s.x - 5, s.y - 25, 3, 2);
-    ctx.fillRect(s.x + 2, s.y - 25, 3, 2);
+    ctx.fillRect(s.x - 5, s.y - 26, 3, 2);
+    ctx.fillRect(s.x + 2, s.y - 26, 3, 2);
   }
 
   // === WEAPON ARM (pointing toward mouse) ===
   const wx = s.x + Math.cos(p.facing) * 18;
   const wy = s.y + Math.sin(p.facing) * 18;
   const wDef = currentWeapon();
+  // Arm
   ctx.strokeStyle = '#000';
   ctx.lineWidth = 5;
   ctx.beginPath(); ctx.moveTo(s.x, s.y - 2); ctx.lineTo(wx, wy); ctx.stroke();
-  ctx.strokeStyle = '#2a1408';
+  ctx.strokeStyle = skinDk;
   ctx.lineWidth = 3;
   ctx.beginPath(); ctx.moveTo(s.x, s.y - 2); ctx.lineTo(wx, wy); ctx.stroke();
   if (p.equipped) {
-    ctx.fillStyle = wDef.ranged ? '#2a1808' : '#3a2010';
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2;
-    ctx.fillRect(wx - 3, wy - 3, 6, 6);
-    ctx.strokeRect(wx - 3, wy - 3, 6, 6);
+    if (!wDef.ranged) {
+      // Scimitar blade — curved suggestion via angled lines
+      const angle = p.facing;
+      const bx = wx + Math.cos(angle) * 10;
+      const by = wy + Math.sin(angle) * 10;
+      const cx2 = wx + Math.cos(angle - 0.7) * 14;
+      const cy2 = wy + Math.sin(angle - 0.7) * 14;
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(wx, wy); ctx.quadraticCurveTo(cx2, cy2, bx, by); ctx.stroke();
+      ctx.strokeStyle = blade;
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(wx, wy); ctx.quadraticCurveTo(cx2, cy2, bx, by); ctx.stroke();
+      // Gold hilt
+      ctx.fillStyle = gold;
+      ctx.fillRect(wx - 3, wy - 3, 6, 6);
+      ctx.strokeStyle = '#000'; ctx.lineWidth = 1;
+      ctx.strokeRect(wx - 3, wy - 3, 6, 6);
+    } else {
+      ctx.fillStyle = '#2a1808';
+      ctx.strokeStyle = '#000';
+      ctx.lineWidth = 2;
+      ctx.fillRect(wx - 3, wy - 3, 6, 6);
+      ctx.strokeRect(wx - 3, wy - 3, 6, 6);
+    }
   }
 
   // === ATTACK SWOOSH ===
@@ -2229,7 +2299,7 @@ function drawPlayer() {
     ctx.fillRect(s.x - 12, s.y - 8, 24, 32);
   }
 
-  // Faint warm glow at feet — campfire / desert heat
+  // Faint warm glow at feet
   ctx.globalAlpha = 0.1;
   const pglow = ctx.createRadialGradient(s.x, s.y + 10, 0, s.x, s.y + 10, 28);
   pglow.addColorStop(0, '#804010');
