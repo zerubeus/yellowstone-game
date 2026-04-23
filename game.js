@@ -27,13 +27,11 @@ for (const d of CHAR_DIRS) {
   charSprites[d] = img;
 }
 
-// Tree sprites (painted side-view variations)
-const treeSprites = [];
-for (let i = 1; i <= 3; i++) {
-  const img = new Image();
-  img.src = `sprites/trees/tree${i}.jpg`;
-  treeSprites.push(img);
-}
+// Tree sprite sheet (3 trees arranged horizontally, 512x256)
+const treeSheet = new Image();
+treeSheet.src = 'sprites/trees.png';
+const TREE_SW = 170;
+const TREE_SH = 256;
 
 const $ = id => document.getElementById(id);
 const startScreen = $('startScreen');
@@ -1629,10 +1627,10 @@ function drawNode(n) {
     // Shadow at base
     ctx.fillStyle = 'rgba(0,0,0,0.4)';
     ctx.beginPath(); ctx.ellipse(s.x, s.y + 6, 22, 6, 0, 0, Math.PI * 2); ctx.fill();
-    const img = treeSprites[n.spriteIdx];
-    if (img && img.complete && img.naturalWidth > 0) {
-      const tw = 72, th = 88;
-      ctx.drawImage(img, s.x - tw / 2, s.y - th + 14, tw, th);
+    if (treeSheet.complete && treeSheet.naturalWidth > 0) {
+      const srcX = n.spriteIdx * TREE_SW;
+      const dw = 60, dh = 90;
+      ctx.drawImage(treeSheet, srcX, 0, TREE_SW, TREE_SH, s.x - dw / 2, s.y - dh + 10, dw, dh);
     } else {
       // Fallback primitive
       ctx.fillStyle = '#2a1e10';
