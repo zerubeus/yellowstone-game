@@ -18,12 +18,13 @@ imgTerrain.src = 'tiles_terrain.png';
 imgObjects.src = 'tiles_objects.png';
 const SPRITE = 32; // source tile size px
 
-// Character walk cycle sprite sheet (4 rows x 8 cols, 256x256 per cell)
-// Rows: 0=down, 1=up, 2=left, 3=right. 8 frames per row.
-const charWalkSheet = new Image();
-charWalkSheet.src = 'sprites/char_walk.png';
-const WALK_CELL = 256;
-const WALK_FRAMES = 8;
+// Character walk cycle sprite sheets (one per direction group)
+const charUpDown = new Image(); charUpDown.src = 'sprites/char_updown.jpg';
+const charRight = new Image(); charRight.src = 'sprites/char_right.jpg';
+const charLeft = new Image(); charLeft.src = 'sprites/char_left.jpg';
+const WALK_FRAMES_UD = 5;
+const WALK_FRAMES_R = 7;
+const WALK_FRAMES_L = 5;
 
 // Tree sprite sheet (3 trees arranged horizontally, 512x256)
 const treeSheet = new Image();
@@ -670,8 +671,10 @@ function update() {
   p.isMoving = len > 0;
   if (p.isMoving) {
     p.walkTimer += state.dt;
-    if (p.walkTimer > 0.1) {
-      p.walkFrame = (p.walkFrame + 1) % WALK_FRAMES;
+    if (p.walkTimer > 0.12) {
+      const dir = facingToDir(p.facing);
+      const maxF = dir === 'right' ? WALK_FRAMES_R : (dir === 'left' ? WALK_FRAMES_L : WALK_FRAMES_UD);
+      p.walkFrame = (p.walkFrame + 1) % maxF;
       p.walkTimer = 0;
     }
   } else {
@@ -1988,16 +1991,15 @@ function drawEnemy(e) {
   }
 }
 
-function facingToRow(angle) {
-  // Normalize angle to [-PI, PI]
+function facingToDir(angle) {
   let a = angle;
   while (a > Math.PI) a -= Math.PI * 2;
   while (a < -Math.PI) a += Math.PI * 2;
   const P = Math.PI;
-  if (a >= -P/4 && a < P/4)   return 0; // down
-  if (a >= P/4  && a < 3*P/4) return 3; // right
-  if (a >= -3*P/4 && a < -P/4) return 2; // left
-  return 1; // up (|a| >= 3PI/4)
+  if (a >= -P/4 && a < P/4)   return 'down';
+  if (a >= P/4  && a < 3*P/4) return 'right';
+  if (a >= -3*P/4 && a < -P/4) return 'left';
+  return 'up';
 }
 
 function drawPlayer() {
@@ -2010,15 +2012,28 @@ function drawPlayer() {
   ctx.fillStyle = 'rgba(0,0,0,0.55)';
   ctx.beginPath(); ctx.ellipse(s.x, s.y + 8, 28, 10, 0, 0, Math.PI * 2); ctx.fill();
 
-  const dirRow = facingToRow(p.facing);
+  const dir = facingToDir(p.facing);
   const SW = 88, SH = 88; // draw size
   const drawX = s.x - SW / 2;
   const drawY = s.y - SH;   // feet at s.y
-  const srcX = p.walkFrame * WALK_CELL;
-  const srcY = dirRow * WALK_CELL;
 
-  if (charWalkSheet.complete && charWalkSheet.naturalWidth > 0) {
-    ctx.drawImage(charWalkSheet, srcX, srcY, WALK_CELL, WALK_CELL, drawX, drawY, SW, SH);
+  let sheet = null, srcX = 0, srcY = 0, srcW = 127, srcH = 226;
+  if (dir === 'down') {
+    sheet = charUpDown;
+    srcX = p.walkFrame * 127; srcY = 0; srcW = 127; srcH = 226;
+  } else if (dir === 'up') {
+    sheet = charUpDown;
+    srcX = p.walkFrame * 127; srcY = 226; srcW = 127; srcH = 226;
+  } else if (dir === 'right') {
+    sheet = charRight;
+    srcX = p.walkFrame * 127; srcY = 0; srcW = 127; srcH = 226;
+  } else {
+    sheet = charLeft;
+    srcX = p.walkFrame * 128; srcY = 0; srcW = 128; srcH = 232;
+  }
+
+  if (sheet && sheet.complete && sheet.naturalWidth > 0) {
+    ctx.drawImage(sheet, srcX, srcY, srcW, srcH, drawX, drawY, SW, SH);
 
     // Gear overlays on torso area
     if (!flash) {
