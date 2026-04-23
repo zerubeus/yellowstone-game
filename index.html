@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>YELLOWSTONE — A Cowboy Survival Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="gameWrap">
+  <canvas id="game" width="960" height="600"></canvas>
+
+  <div id="startScreen">
+    <div class="title">YELLOWSTONE</div>
+    <div class="subtitle">there is nothing left out there</div>
+    <button id="playBtn">ENTER THE WASTES</button>
+    <div class="controls">
+      WASD / Arrows — Move &nbsp;•&nbsp; Mouse — Aim &nbsp;•&nbsp; Click — Attack/Interact<br>
+      I — Inventory &nbsp;•&nbsp; C — Craft &nbsp;•&nbsp; B — Build &nbsp;•&nbsp; M — Map &nbsp;•&nbsp; E — Sleep (at bed)
+    </div>
+  </div>
+
+  <div id="hud" class="hidden">
+    <div class="bars">
+      <div class="bar"><span>HP</span><div class="fill hp" id="hpFill"></div><div class="label" id="hpLabel"></div></div>
+      <div class="bar"><span>NRG</span><div class="fill en" id="enFill"></div><div class="label" id="enLabel"></div></div>
+      <div class="bar"><span>XP</span><div class="fill xp" id="xpFill"></div><div class="label" id="xpLabel"></div></div>
+    </div>
+    <div class="stats">
+      <span id="lvlTxt">Lv 1</span>
+      <span id="coinTxt">$0</span>
+      <span id="zoneTxt">Green Zone</span>
+    </div>
+    <div class="quickbar" id="quickbar"></div>
+    <div class="toasts" id="toasts"></div>
+  </div>
+
+  <div id="panels" class="hidden">
+    <div id="invPanel" class="panel hidden">
+      <h2>INVENTORY</h2>
+      <div id="invGrid" class="grid"></div>
+      <div class="eq"><b>Equipped Weapon:</b> <span id="eqWeapon">Fists</span></div>
+      <div class="eq"><b>Equipped Gear:</b> <span id="eqGear">None</span></div>
+      <div class="hint">Click weapon/food/gear to use/equip. Right-click to sell at General Store.</div>
+      <button class="closeBtn">Close</button>
+    </div>
+    <div id="craftPanel" class="panel hidden">
+      <h2>CRAFTING</h2>
+      <div id="craftStation">Standing at: <span id="stationName">nowhere</span></div>
+      <div id="craftList"></div>
+      <button class="closeBtn">Close</button>
+    </div>
+    <div id="buildPanel" class="panel hidden">
+      <h2>BUILD MODE</h2>
+      <div id="buildList"></div>
+      <div class="hint">Select a building, then click on your ranch to place it. ESC to cancel.</div>
+      <button class="closeBtn">Close</button>
+    </div>
+    <div id="shopPanel" class="panel hidden">
+      <h2>GENERAL STORE</h2>
+      <div id="shopList"></div>
+      <button class="closeBtn">Close</button>
+    </div>
+    <div id="mapPanel" class="panel hidden">
+      <h2>FRONTIER MAP</h2>
+      <canvas id="miniMap" width="360" height="280"></canvas>
+      <div class="hint">Travel to zones by walking through the borders.</div>
+      <button class="closeBtn">Close</button>
+    </div>
+  </div>
+
+  <div id="interactHint" class="hidden"></div>
+
+  <!-- Mobile Touch Controls (only shown on touch devices) -->
+  <div id="touchControls" style="display:none">
+    <!-- Left half: joystick capture area -->
+    <div id="joystickZone"></div>
+    <!-- Joystick visual -->
+    <div id="joystickOuter">
+      <div id="joystickInner"></div>
+    </div>
+    <!-- Right side: action buttons -->
+    <div id="btnAttack">ATTACK</div>
+    <div id="btnInteract">USE</div>
+    <div id="btnBag">🎒</div>
+  </div>
+</div>
+
+<style>
+#touchControls {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  touch-action: none;
+  user-select: none;
+}
+#joystickZone {
+  position: absolute;
+  left: 0; top: 0;
+  width: 50%; height: 100%;
+  pointer-events: all;
+  touch-action: none;
+}
+#joystickOuter {
+  position: absolute;
+  left: 60px; bottom: 60px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(10,6,2,0.65);
+  border: 4px solid #1a0c04;
+  box-shadow: 0 0 0 2px #000;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+#joystickInner {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  background: #2a1408;
+  border: 3px solid #000;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+  position: absolute;
+  top: 35px; left: 35px;
+  pointer-events: none;
+  transition: none;
+}
+#btnAttack, #btnInteract {
+  position: absolute;
+  right: 50px;
+  border-radius: 50%;
+  background: rgba(10,6,2,0.70);
+  border: 4px solid #1a0c04;
+  box-shadow: 0 0 0 2px #000;
+  color: #8a6a40;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 1px;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: all;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#btnAttack {
+  width: 80px; height: 80px;
+  bottom: 60px;
+  font-size: 10px;
+}
+#btnInteract {
+  width: 56px; height: 56px;
+  bottom: 160px;
+  right: 73px;
+  font-size: 9px;
+}
+#btnAttack:active, #btnInteract:active {
+  background: rgba(60,20,8,0.80);
+  border-color: #5a2a0a;
+}
+
+#btnBag {
+  position: absolute;
+  right: 73px;
+  bottom: 248px;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: rgba(10,6,2,0.70);
+  border: 4px solid #1a0c04;
+  box-shadow: 0 0 0 2px #000;
+  color: #8a6a40;
+  font-size: 22px;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: all;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#btnBag:active {
+  background: rgba(60,20,8,0.80);
+  border-color: #5a2a0a;
+}
+</style>
+
+<script src="game.js"></script>
+</body>
+</html>
