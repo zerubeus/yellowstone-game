@@ -27,6 +27,14 @@ for (const d of CHAR_DIRS) {
   charSprites[d] = img;
 }
 
+// Tree sprites (painted side-view variations)
+const treeSprites = [];
+for (let i = 1; i <= 3; i++) {
+  const img = new Image();
+  img.src = `sprites/trees/tree${i}.jpg`;
+  treeSprites.push(img);
+}
+
 const $ = id => document.getElementById(id);
 const startScreen = $('startScreen');
 const hudEl = $('hud');
@@ -398,7 +406,9 @@ function makeNode(type, x, y) {
     silver: { hp: 120, r: 16, drop: 'silver', amount: [1, 2], req: 'mine', xp: 20, color: '#2a2a38' },
   };
   const d = defs[type];
-  return { type, x, y, r: d.r, hp: d.hp, hpMax: d.hp, def: d, respawn: 0 };
+  const node = { type, x, y, r: d.r, hp: d.hp, hpMax: d.hp, def: d, respawn: 0 };
+  if (type === 'tree') node.spriteIdx = rint(0, 2);
+  return node;
 }
 
 function spawnEnemies() {
@@ -1616,20 +1626,13 @@ function drawNode(n) {
   ctx.strokeStyle = '#000';
 
   if (n.type === 'tree') {
-    if (objLoaded) {
-      // Shadow
-      ctx.fillStyle = 'rgba(0,0,0,0.35)';
-      ctx.beginPath(); ctx.ellipse(s.x, s.y + 8, 18, 6, 0, 0, Math.PI * 2); ctx.fill();
-      // Tree trunk sprite (row 1 col 0)
-      blitObj(0, 1, s.x, s.y + 14, 28);
-      // Tree canopy sprite (row 0, vary col by hash for variety)
-      const col = ((n.x * 7 + n.y * 13) | 0) % 3;
-      blitObj(col, 0, s.x, s.y - 8, sp.size);
-      // Dark tint over sprites for grim mood
-      ctx.globalAlpha = 0.35;
-      ctx.fillStyle = '#000';
-      ctx.fillRect(s.x - sp.size/2, s.y - 8 - sp.size/2, sp.size, sp.size);
-      ctx.globalAlpha = 1;
+    // Shadow at base
+    ctx.fillStyle = 'rgba(0,0,0,0.4)';
+    ctx.beginPath(); ctx.ellipse(s.x, s.y + 6, 22, 6, 0, 0, Math.PI * 2); ctx.fill();
+    const img = treeSprites[n.spriteIdx];
+    if (img && img.complete && img.naturalWidth > 0) {
+      const tw = 72, th = 88;
+      ctx.drawImage(img, s.x - tw / 2, s.y - th + 14, tw, th);
     } else {
       // Fallback primitive
       ctx.fillStyle = '#2a1e10';
