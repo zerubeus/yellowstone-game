@@ -1991,11 +1991,11 @@ function drawPlayer() {
 
   // Ground shadow
   ctx.fillStyle = 'rgba(0,0,0,0.55)';
-  ctx.beginPath(); ctx.ellipse(s.x, s.y + 4, 14, 5, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(s.x, s.y + 8, 28, 10, 0, 0, Math.PI * 2); ctx.fill();
 
   const dir = facingToDir(p.facing);
   const img = charSprites[dir];
-  const SW = 44, SH = 44; // draw size
+  const SW = 88, SH = 88; // draw size
   const drawX = s.x - SW / 2;
   const drawY = s.y - SH;   // feet at s.y
 

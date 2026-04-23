@@ -6,3 +6,22 @@
 game.js
 ---
 
+## Session End: 20260423_183351
+### Commits
+37ab460 feat: replace player character with Saracen warrior sprite
+c8ce819 Replace player character with The Last Spell survivor style
+03294a7 Add Claude Code Game Studios template: 49 agents, 72 skills, hooks, rules
+1f05425 YELLOWSTONE survival game - dark LISA style, melee weapons, gear system, mobile controls, Summer Plains tiles
+---
+
+## Session End: 20260423_184145
+### Commits
+af81710 feat: replace player character with 8-direction sprite sheets
+37ab460 feat: replace player character with Saracen warrior sprite
+c8ce819 Replace player character with The Last Spell survivor style
+03294a7 Add Claude Code Game Studios template: 49 agents, 72 skills, hooks, rules
+1f05425 YELLOWSTONE survival game - dark LISA style, melee weapons, gear system, mobile controls, Summer Plains tiles
+### Uncommitted Changes
+production/session-logs/session-log.md
+---
+
